@@ -1,14 +1,25 @@
-# Distributed Chat & File Sharing (Prototype)
+# Distributed Chat & File Sharing
 
-This repository contains a prototype distributed chat application with file sharing. It demonstrates:
+A real-time chat application with file sharing capabilities, supporting web browsers, TCP, and UDP clients.
 
-- A Python FastAPI web app with WebSocket chat for browsers
-- A background TCP server (port 9000) that accepts raw TCP clients
-- A UDP listener (port 9001) that can receive small file datagrams
-- File upload via HTTP which stores files under `uploads/` and notifies connected clients
-- Example clients: Python TCP client, UDP file sender, Java TCP client skeleton
+## 🚀 Deploy to Render
 
-Quick start
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+**Quick deploy**: Push to GitHub → Connect to Render → Auto-deploy with `render.yaml`
+
+See [DEPLOY.md](DEPLOY.md) for detailed deployment instructions.
+
+## 🌟 Features
+
+- 🎨 **Modern Web UI** with session-based identity
+- 💬 **Real-time Chat** via WebSocket
+- 📁 **File Sharing** with image previews
+- 👥 **Multi-user** support with individual sessions
+- 🌐 **Cross-platform** (Web, TCP, UDP clients)
+- 📱 **Responsive** design for mobile/desktop
+
+## 🏃‍♂️ Quick Start (Local)
 
 1. Install dependencies:
 

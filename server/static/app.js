@@ -14,6 +14,14 @@ const randomNameBtn = document.getElementById('randomNameBtn');
 let sessionName = sessionStorage.getItem('wm_session_name') || '';
 let sessionColor = sessionStorage.getItem('wm_session_color') || '';
 
+// Check if this is a real user browser (not a health check or bot)
+function isRealUserAgent() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isBot = /bot|crawler|spider|health|monitor|check/.test(ua);
+  const hasJavaScript = typeof window !== 'undefined';
+  return hasJavaScript && !isBot;
+}
+
 function randomName() {
   const adj = ['Sunny','Quiet','Brave','Curious','Mellow','Swift','Clever','Bold','Kind','Frost'];
   const noun = ['Fox','Sparrow','Otter','Raven','Dolphin','Hawk','Panda','Maple','Cedar','Orchid'];
@@ -50,13 +58,16 @@ function setSession(name){
   }, 500);
 }
 
-// If no session name yet, show modal and block connecting
-if(!sessionName){
+// If no session name yet AND this is a real user, show modal and block connecting
+if(!sessionName && isRealUserAgent()){
   showModal();
   sessionNameInput.value = randomName();
-} else {
+} else if (sessionName) {
   setSession(sessionName);
   startWebSocket();
+} else {
+  // For bots/health checks, don't show modal or start websocket
+  document.body.innerHTML = '<div style="padding:20px;text-align:center;font-family:sans-serif;"><h1>WebMessages Chat</h1><p>Please visit with a web browser to join the chat.</p></div>';
 }
 
 randomNameBtn.addEventListener('click', ()=>{

@@ -7,6 +7,9 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+# Use PORT environment variable for deployment (Render provides this)
+PORT = int(os.getenv('PORT', 8000))
+
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -47,10 +50,27 @@ async def broadcast_message(message: dict):
         tcp_writers.discard(d)
 
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "service": "webmessages"}
+
+@app.head("/health")
+async def health_check_head():
+    return {"status": "ok"}
+
 @app.get("/")
-async def index():
+async def index(request: Request):
+    # Check if this is a health check or bot request
+    user_agent = request.headers.get("user-agent", "").lower()
+    if any(bot in user_agent for bot in ["bot", "crawler", "health", "monitor", "check"]):
+        return {"status": "ok", "message": "WebMessages Chat App"}
+    
     path = os.path.join(os.path.dirname(__file__), "static", "index.html")
     return FileResponse(path)
+
+@app.head("/")
+async def index_head():
+    return {"status": "ok"}
 
 
 @app.post("/upload")
