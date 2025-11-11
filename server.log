@@ -1,0 +1,18 @@
+INFO:     Started server process [20602]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+TCP server listening on 0.0.0.0:9000
+UDP listener on 0.0.0.0:9001
+INFO:     127.0.0.1:52878 - "GET / HTTP/1.1" 200 OK
+INFO:     ('127.0.0.1', 52879) - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:52886 - "GET / HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     ('127.0.0.1', 52887) - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [20602]

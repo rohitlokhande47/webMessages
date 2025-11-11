@@ -76,7 +76,17 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
-            msg = {"type": "message", "from": "web", "text": data}
+            # allow clients to send JSON {from: "name", text: "..."} or plain text
+            try:
+                parsed = json.loads(data)
+                if isinstance(parsed, dict) and 'text' in parsed:
+                    from_field = parsed.get('from', 'web')
+                    text_field = parsed.get('text', '')
+                    msg = {"type": "message", "from": from_field, "text": text_field}
+                else:
+                    msg = {"type": "message", "from": "web", "text": data}
+            except Exception:
+                msg = {"type": "message", "from": "web", "text": data}
             await broadcast_message(msg)
     except WebSocketDisconnect:
         websockets.discard(websocket)

@@ -8,27 +8,51 @@
   </head>
   <body>
     <div id="app">
-      <header>
-        <h1>Distributed Chat & File Sharing</h1>
+      <!-- Session name modal: appears before joining -->
+      <div id="nameModal" class="modal" aria-hidden="false">
+        <div class="modal-content">
+          <h3>Welcome — your name for this session</h3>
+          <p>Each new tab is a new person. Enter the display name to join.</p>
+          <input id="sessionNameInput" placeholder="Enter a name (e.g. Alice)" maxlength="30" />
+          <div class="modal-actions">
+            <button id="randomNameBtn" class="btn">Random</button>
+            <button id="enterBtn" class="btn">Enter chat</button>
+          </div>
+        </div>
+      </div>
+
+      <header class="topbar">
+        <div class="brand">📬 <span>WebMessages</span></div>
+        <div class="controls">
+          <input id="username" class="username" placeholder="Your name" />
+        </div>
       </header>
 
-      <main>
-        <div id="chat">
-          <ul id="messages"></ul>
-          <form id="msgForm">
-            <input id="msgInput" placeholder="Type a message" autocomplete="off" />
-            <button>Send</button>
-          </form>
-        </div>
+      <main class="container">
+        <aside class="sidebar">
+          <section class="upload-card">
+            <h4>Share a file</h4>
+            <form id="uploadForm" enctype="multipart/form-data">
+              <input type="file" name="file" id="fileInput" />
+              <button type="submit" class="btn">Upload</button>
+            </form>
+          </section>
+          <section class="info-card">
+            <h4>Info</h4>
+            <p>Connected clients: <span id="clientsCount">—</span></p>
+            <p>TCP: <code>localhost:9000</code></p>
+            <p>UDP: <code>localhost:9001</code></p>
+          </section>
+        </aside>
 
-        <div id="upload">
-          <h3>Upload a file</h3>
-          <form id="uploadForm" enctype="multipart/form-data">
-            <input type="text" id="username" placeholder="Your name" />
-            <input type="file" name="file" id="fileInput" />
-            <button>Upload</button>
+        <section class="chat">
+          <ul id="messages" class="messages"></ul>
+
+          <form id="msgForm" class="msg-form">
+            <input id="msgInput" placeholder="Type a message and press Enter" autocomplete="off" />
+            <button class="btn send">Send</button>
           </form>
-        </div>
+        </section>
       </main>
     </div>
     <script src="/static/app.js"></script>
