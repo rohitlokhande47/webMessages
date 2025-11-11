@@ -1,0 +1,10 @@
+body { font-family: sans-serif; margin: 0; padding: 0; background: #f4f6f8; }
+header { background: #2b61d6; color: white; padding: 12px 18px; }
+main { display: flex; gap: 24px; padding: 18px; }
+#chat { flex: 1; }
+#messages { list-style: none; padding: 0; max-height: 70vh; overflow: auto; background: white; border: 1px solid #ddd; margin-bottom: 8px; }
+#messages li { padding: 6px 8px; border-bottom: 1px solid #f0f0f0; }
+#messages li.system { color: #666; font-style: italic; }
+form { display: flex; gap: 8px; }
+input[type="text"], input[type="file"], #msgInput { flex: 1; padding: 8px; }
+button { padding: 8px 12px; background: #2b61d6; color: white; border: none; cursor: pointer; }
