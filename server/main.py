@@ -121,13 +121,22 @@ async def handle_tcp_client(reader: asyncio.StreamReader, writer: asyncio.Stream
             if not line:
                 break
             text = line.decode().strip()
+            
+            # Filter out health check requests and HTTP requests
+            if any(filter_term in text.upper() for filter_term in [
+                'HEAD /', 'GET /HEALTH', 'HEAD /HEALTH', 'USER-AGENT: GO-HTTP-CLIENT',
+                'HOST: WEBMESSAGES.ONRENDER.COM', 'HTTP/1.1', 'GET /', 'POST /'
+            ]):
+                continue  # Skip broadcasting health checks and HTTP requests
+                
             try:
                 obj = json.loads(text)
                 # Expect objects with type/message
                 await broadcast_message(obj)
             except Exception:
-                # treat as plain text
-                await broadcast_message({"type": "message", "from": f"tcp:{addr}", "text": text})
+                # treat as plain text, but only if it's not empty and not HTTP
+                if text.strip() and not text.startswith(('GET', 'POST', 'HEAD', 'HOST:', 'USER-AGENT:')):
+                    await broadcast_message({"type": "message", "from": f"tcp:{addr}", "text": text})
     except Exception:
         pass
     finally:
